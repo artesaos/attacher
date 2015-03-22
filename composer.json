@@ -1,0 +1,20 @@
+{
+  "name": "artesaos/attacher",
+  "autoload": {
+    "psr-4": {
+      "Artesaos\\Attacher\\": "src/"
+    }
+  },
+  "require": {
+    "illuminate/support": "~5",
+    "intervention/image": "~2.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.*"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Vinicius73\\Pual\\Tests\\": "tests/"
+    }
+  }
+}
