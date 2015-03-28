@@ -1,13 +1,11 @@
 <?php namespace Artesaos\Attacher;
 
 use Artesaos\Attacher\Contracts\ModelContract as Model;
-use Artesaos\Attacher\Processors\FileSystem;
-use Artesaos\Attacher\Contracts\ImageProcessor;
 
 class Attacher
 {
     /**
-     * @var ImageProcessor
+     * @var \Artesaos\Attacher\Contracts\ImageProcessor
      */
     protected $processor;
 
@@ -54,12 +52,12 @@ class Attacher
     }
 
     /**
-     * @return ImageProcessor
+     * @return \Artesaos\Attacher\Contracts\ImageProcessor
      */
     protected function getProcessor()
     {
         if (!$this->processor):
-            $this->processor = new FileSystem();
+            $this->processor = app('attacher.processor');
         endif;
 
         return $this->processor;

@@ -5,10 +5,7 @@ use Illuminate\Support\ServiceProvider;
 
 class AttacherServiceProvider extends ServiceProvider
 {
-    /**
-     *
-     * @return void
-     */
+
     public function boot()
     {
         $base      = __DIR__ . '/../../resources/';
@@ -26,21 +23,25 @@ class AttacherServiceProvider extends ServiceProvider
         $this->registerObserver();
     }
 
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
     public function register()
     {
         $this->app->singleton('attacher', function () {
             return new Attacher();
         });
+
+        $this->app->register('GrahamCampbell\Flysystem\FlysystemServiceProvider');
+
+        $this->app->singleton('attacher.fly', 'Artesaos\Attacher\Outputs\Fly');
+        $this->app->singleton('attacher.processor', 'Artesaos\Attacher\Processors\FlyProcessor');
+
+        $this->app->bind('Artesaos\Attacher\Contracts\OutputContract', 'attacher.fly');
+        $this->app->bind('Artesaos\Attacher\Contracts\ImageProcessor', 'attacher.processor');
     }
 
     private function registerObserver()
     {
         $model = config('attacher.model');
+
         forward_static_call([$model, 'observe'], 'Artesaos\Attacher\Observers\ModelObserver');
     }
 

@@ -4,6 +4,7 @@ use Artesaos\Attacher\Contracts\ImageProcessor;
 use Intervention\Image\Image;
 use Intervention\Image\ImageManager;
 use Artesaos\Attacher\Contracts\ModelContract;
+use Artesaos\Attacher\Contracts\OutputContract as Output;
 
 abstract class AbstractProcessor implements ImageProcessor
 {
@@ -12,9 +13,15 @@ abstract class AbstractProcessor implements ImageProcessor
      */
     protected $imageManager;
 
-    public function __construct()
+    /**
+     * @var Output
+     */
+    protected $output;
+
+    public function __construct(Output $output, ImageManager $imageManager)
     {
-        $this->imageManager = new ImageManager();
+        $this->imageManager = $imageManager;
+        $this->output       = $output;
     }
 
     /**
@@ -51,10 +58,10 @@ abstract class AbstractProcessor implements ImageProcessor
     }
 
     /**
-     * @param Image $image
-     * @param       $styleName
-     * @param       $fileName
-     * @param       $path
+     * @param Image  $image
+     * @param string $styleName
+     * @param string $fileName
+     * @param string $path
      */
     abstract protected function save(Image $image, $styleName, $fileName, $path);
 }
