@@ -25,7 +25,7 @@ class AttacherModel extends Model implements ModelContract
      */
     public function url($style = 'original')
     {
-        return app('attacher.interpolator')->getUrl($this, $style);
+        return app('attacher.interpolator')->parseUrl($this, $style);
     }
 
     /**
@@ -35,7 +35,7 @@ class AttacherModel extends Model implements ModelContract
      */
     public function getPath($style)
     {
-        return app('attacher.interpolator')->gePath($this, $style);
+        return app('attacher.interpolator')->parsePath($this, $style);
     }
 
     /**

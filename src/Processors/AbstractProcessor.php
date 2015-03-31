@@ -38,13 +38,13 @@ abstract class AbstractProcessor implements ImageProcessor
         if (isset($style['original'])):
             $image = $this->applyStyle($image, $style['original']);
         else:
-            $image = $this->applyStyle($image, function () {
-            });
+            $image = $this->applyStyle($image, function () {});
         endif;
+
+        $this->save($image, $model->getPath('original'));
 
         foreach ($styles as $styleName => $style):
             $processed = $this->applyStyle($image, $style);
-
 
             $this->save($processed, $model->getPath($styleName));
         endforeach;

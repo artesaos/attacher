@@ -3,7 +3,7 @@
 interface InterpolatorContract
 {
 
-    public function __construct($base_url, $path);
+    public function __construct($path, $base_url);
 
     /**
      * @param ModelContract $model
