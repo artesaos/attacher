@@ -48,7 +48,7 @@ class Attacher
      */
     protected function getPath()
     {
-        return $this->path;
+        return $this->getInterpolator()->getPath();
     }
 
     /**
@@ -61,5 +61,13 @@ class Attacher
         endif;
 
         return $this->processor;
+    }
+
+    /**
+     * @return \Artesaos\Attacher\Contracts\InterpolatorContract;
+     */
+    protected function getInterpolator()
+    {
+        return app('attacher.interpolator');
     }
 }

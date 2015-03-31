@@ -1,6 +1,7 @@
 <?php namespace Artesaos\Attacher\Providers;
 
 use Artesaos\Attacher\Attacher;
+use Artesaos\Attacher\Interpolator;
 use Illuminate\Support\ServiceProvider;
 
 class AttacherServiceProvider extends ServiceProvider
@@ -9,11 +10,11 @@ class AttacherServiceProvider extends ServiceProvider
     public function boot()
     {
         $base      = __DIR__ . '/../../resources/';
-        $migration = '2015_03_15_000000_create_attacher_images_table';
+        $migration = '2015_03_28_000000_create_attacher_images_table.php';
 
         $this->publishes([
-            $base . 'config/attacher.php'               => config_path('attacher.php'),
-            $base . 'migrations/' . $migration . '.php' => base_path('database/migrations/' . $migration . '.php')
+            $base . 'config/attacher.php'    => config_path('attacher.php'),
+            $base . 'database/' . $migration => base_path('database/migrations/' . $migration)
         ]);
 
         $this->mergeConfigFrom(
@@ -29,13 +30,20 @@ class AttacherServiceProvider extends ServiceProvider
             return new Attacher();
         });
 
+        $this->app->singleton('attacher.interpolator', function () {
+            $config = config('attacher');
+
+            return new Interpolator($config['path'], $config['base_url']);
+        });
+
         $this->app->register('GrahamCampbell\Flysystem\FlysystemServiceProvider');
 
-        $this->app->singleton('attacher.fly', 'Artesaos\Attacher\Outputs\Fly');
-        $this->app->singleton('attacher.processor', 'Artesaos\Attacher\Processors\FlyProcessor');
+        $this->app->singleton('attacher.outputs.fly', 'Artesaos\Attacher\Outputs\Fly');
+        $this->app->singleton('attacher.processor', 'Artesaos\Attacher\Processors\CommonProcessor');
 
-        $this->app->bind('Artesaos\Attacher\Contracts\OutputContract', 'attacher.fly');
+        $this->app->bind('Artesaos\Attacher\Contracts\OutputContract', 'attacher.outputs.fly');
         $this->app->bind('Artesaos\Attacher\Contracts\ImageProcessor', 'attacher.processor');
+        $this->app->bind('Artesaos\Attacher\Contracts\InterpolatorContract', 'attacher.interpolator');
     }
 
     private function registerObserver()

@@ -24,4 +24,23 @@ interface ModelContract
      * @return string
      */
     public function url($style);
+
+    /**
+     * @param string $style
+     *
+     * @return string
+     */
+    public function getPath($style);
+
+    /**
+     * @return string
+     */
+    public function getFileName();
+
+    /**
+     * @param string $key
+     *
+     * @return mixed
+     */
+    public function getAttribute($key);
 }

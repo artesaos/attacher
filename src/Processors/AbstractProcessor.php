@@ -35,10 +35,18 @@ abstract class AbstractProcessor implements ImageProcessor
 
         $image = $this->imageManager->make($file->getFileInfo());
 
+        if (isset($style['original'])):
+            $image = $this->applyStyle($image, $style['original']);
+        else:
+            $image = $this->applyStyle($image, function () {
+            });
+        endif;
+
         foreach ($styles as $styleName => $style):
             $processed = $this->applyStyle($image, $style);
 
-            $this->save($processed, $styleName, $file->getClientOriginalName(), $path);
+
+            $this->save($processed, $model->getPath($styleName));
         endforeach;
     }
 
@@ -63,5 +71,5 @@ abstract class AbstractProcessor implements ImageProcessor
      * @param string $fileName
      * @param string $path
      */
-    abstract protected function save(Image $image, $styleName, $fileName, $path);
+    abstract protected function save(Image $image, $fileName);
 }

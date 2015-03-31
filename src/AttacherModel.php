@@ -25,7 +25,17 @@ class AttacherModel extends Model implements ModelContract
      */
     public function url($style = 'original')
     {
-        // TODO: Implement url() method.
+        return app('attacher.interpolator')->getUrl($this, $style);
+    }
+
+    /**
+     * @param string $style
+     *
+     * @return string
+     */
+    public function getPath($style)
+    {
+        return app('attacher.interpolator')->gePath($this, $style);
     }
 
     /**
@@ -36,6 +46,11 @@ class AttacherModel extends Model implements ModelContract
     public function setupFile(UploadedFile $file)
     {
         $this->_source = $file;
+
+        $this->setFileExtension($file->getExtension());
+        $this->setFileNameAttribute($file->getClientOriginalName());
+        $this->setMimeTypeAttribute($file->getClientMimeType());
+        $this->setFileSizeAttribute($file->getSize());
     }
 
     /**
@@ -52,5 +67,55 @@ class AttacherModel extends Model implements ModelContract
     public function getSourceFile()
     {
         return $this->_source;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        return $this->getFileNameAttribute();
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileNameAttribute()
+    {
+        return $this->attributes['file_name'];
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setFileNameAttribute($name)
+    {
+        $file_name = str_slug(pathinfo($name, PATHINFO_FILENAME)) . '.' . pathinfo($name, PATHINFO_EXTENSION);
+
+        $this->attributes['file_name'] = $file_name;
+    }
+
+    /**
+     * @param string $extension
+     */
+    public function setFileExtension($extension)
+    {
+        $this->attributes['file_extension'] = $extension;
+    }
+
+    /**
+     * @param int $size
+     */
+    public function setFileSizeAttribute($size)
+    {
+        $this->attributes['file_size'] = $size;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setMimeTypeAttribute($type)
+    {
+        $this->attributes['mime_type'] = $type;
     }
 }
