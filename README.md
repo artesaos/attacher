@@ -40,6 +40,48 @@ In order to use the `Attacher` facade, you need to register it on the `config/ap
     ],
 // file END ommited
 ```
-## 4 - Usage
+
+### 3 - Configuration
+
+Run in your console `php artisan vendor:publish`, now you have 3 new files, `config/attacher.php`, `config/flysystem.php` and `database/migrations/2015_03_28_000000_create_attacher_images_table.php`
+
+> Attacher need (graham-campbell/flysystem)[https://github.com/GrahamCampbell/Laravel-Flysystem], don't worry, Attacher registers the flysystem service automatically for you.
+
+
+```php
+<?php
+# config/attacher.php
+return [
+    'model'    => 'Artesaos\Attacher\AttacherModel', # You can customize the model for your needs.
+    'base_url' => '', # The url basis for the representation of images.
+    'path'     => '/uploads/images/:id/:style/:filename', # Change the path where the images are stored.
+
+    # Where the magic happens.
+    # This is where you record what the "styles" that will apply to your image.
+    # Each style takes as the parameter is one \Intervention\Image\Image
+    # See more in http://image.intervention.io/
+    'styles'   => [
+        # Optional
+        # If you set the original style all other styles used his return to base
+        'original'=> function($image)
+        {
+            return $image->insert('public/watermark.png');;
+        },
+        # Generate thumb (?x500)
+        'thumb'=> function($image) 
+        {
+            $image->resize(null, 500, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+
+            return $image;
+        }
+    ]
+];
+
+```
+
+## Usage
 
 > WIP
