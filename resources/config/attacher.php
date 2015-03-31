@@ -15,8 +15,8 @@ return [
         'thumb'=> function($image) 
         {
             $image->resize(null, 500, function ($constraint) {
-            $constraint->aspectRatio();
-            $constraint->upsize();
+                $constraint->aspectRatio();
+                $constraint->upsize();
             });
             
             return $image;
