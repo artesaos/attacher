@@ -19,8 +19,10 @@ composer require artesaos/attacher
 ### 2 - Provider
 You need to update your application configuration in order to register the package so it can be loaded by Laravel, just update your `config/app.php` file adding the following code at the end of your `'providers'` section:
 
-> `config/app.php`
 ```php
+<?php
+# config/app.php 
+
 // file START ommited
     'providers' => [
         // other providers ommited
@@ -33,6 +35,9 @@ You need to update your application configuration in order to register the packa
 In order to use the `Attacher` facade, you need to register it on the `config/app.php` file, you can do that the following way:
 
 ```php
+<?php
+# config/app.php 
+
 // file START ommited
     'aliases' => [
         // other Facades ommited
@@ -45,7 +50,7 @@ In order to use the `Attacher` facade, you need to register it on the `config/ap
 
 Run in your console `php artisan vendor:publish`, now you have 3 new files, `config/attacher.php`, `config/flysystem.php` and `database/migrations/2015_03_28_000000_create_attacher_images_table.php`
 
-> Attacher need (graham-campbell/flysystem)[https://github.com/GrahamCampbell/Laravel-Flysystem], don't worry, Attacher registers the flysystem service automatically for you.
+> Attacher need [graham-campbell/flysystem](https://github.com/GrahamCampbell/Laravel-Flysystem), don't worry, Attacher registers the flysystem service automatically for you.
 
 
 ```php
