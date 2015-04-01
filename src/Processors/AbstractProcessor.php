@@ -31,23 +31,40 @@ abstract class AbstractProcessor implements ImageProcessor
      */
     public function process(ModelContract &$model, array $styles, $path)
     {
-        $file = $model->getSourceFile();
+        $image = $this->imageManager->make($model->getSourceFile()->getFileInfo());
 
-        $image = $this->imageManager->make($file->getFileInfo());
+        $originalClosure = array_get($styles, 'original', null);
 
-        if (isset($style['original'])):
-            $image = $this->applyStyle($image, $style['original']);
-        else:
-            $image = $this->applyStyle($image, function () {});
+        $original = $this->processStyle($model, $image, 'original', $originalClosure);
+
+        array_forget($styles, 'original');
+
+        foreach ($styles as $styleName => $closure):
+            $this->processStyle($model, $original, $styleName, $closure);
+        endforeach;
+    }
+
+    /**
+     * @param ModelContract $model
+     * @param Image         $image
+     * @param string        $styleName
+     * @param \Closure      $closure
+     *
+     * @return Image
+     */
+    protected function processStyle(ModelContract $model, $image, $styleName, $closure)
+    {
+        if (is_null($closure)):
+            $this->save($image, $model->getPath($styleName));
+
+            return $image;
         endif;
 
-        $this->save($image, $model->getPath('original'));
+        $processed = $this->applyStyle($image, $closure);
 
-        foreach ($styles as $styleName => $style):
-            $processed = $this->applyStyle($image, $style);
+        $this->save($processed, $model->getPath($styleName));
 
-            $this->save($processed, $model->getPath($styleName));
-        endforeach;
+        return $processed;
     }
 
     /**
@@ -67,9 +84,10 @@ abstract class AbstractProcessor implements ImageProcessor
 
     /**
      * @param Image  $image
-     * @param string $styleName
      * @param string $fileName
-     * @param string $path
+     *
+     * @return bool
      */
     abstract protected function save(Image $image, $fileName);
+
 }

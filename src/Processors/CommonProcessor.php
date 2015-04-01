@@ -6,8 +6,6 @@ class CommonProcessor extends AbstractProcessor
 {
     /**
      * @param Image  $image
-     * @param string $styleName
-     * @param string $fileName
      * @param string $path
      *
      * @return bool
