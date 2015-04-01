@@ -105,12 +105,10 @@ return [
         # Generate thumb (?x500)
         'thumb'=> function($image)
         {
-            $image->resize(null, 500, function ($constraint) {
+            return $image->resize(null, 500, function ($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
             });
-
-            return $image;
         }
     ]
 ];
