@@ -3,6 +3,8 @@ Upload for S3, Copy, Local, Anything and attach images in your Models
 
 > Current Build Status
 
+[![Code Climate](https://codeclimate.com/github/artesaos/attacher/badges/gpa.svg)](https://codeclimate.com/github/artesaos/attacher)
+
 > Statistics
 
 [![Latest Stable Version](https://poser.pugx.org/artesaos/attacher/v/stable.svg)](https://packagist.org/packages/artesaos/attacher) [![Total Downloads](https://poser.pugx.org/artesaos/attacher/downloads.svg)](https://packagist.org/packages/artesaos/attacher) [![Latest Unstable Version](https://poser.pugx.org/artesaos/attacher/v/unstable.svg)](https://packagist.org/packages/artesaos/attacher) [![License](https://poser.pugx.org/artesaos/attacher/license.svg)](https://packagist.org/packages/artesaos/attacher)
