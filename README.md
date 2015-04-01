@@ -105,4 +105,18 @@ return [
 
 ## Usage
 
-> WIP
+The usage is very simple.
+The image destination information are in flysystem configuration file `config/flysystem.php` there you define which provider to use for uploading.
+
+### 1 - Basic
+
+```php
+$upload = Input::file('image');
+
+$image = new \Artesaos\Attacher\AttacherModel();
+$image->setupFile($upload);
+$image->save();
+
+echo $image->url('original');
+echo $image->url('thumb'); // your style
+```
