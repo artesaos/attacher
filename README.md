@@ -21,7 +21,7 @@ You need to update your application configuration in order to register the packa
 
 ```php
 <?php
-# config/app.php 
+# config/app.php
 
 // file START ommited
     'providers' => [
@@ -31,12 +31,14 @@ You need to update your application configuration in order to register the packa
 // file END ommited
 ```
 
-### 3 - Facade [WIP]
+### 3 - Facade
+> Optional. You do not need to register the Facade of Attacher, but if you want to have access to some shortcuts feel free to use it.
+
 In order to use the `Attacher` facade, you need to register it on the `config/app.php` file, you can do that the following way:
 
 ```php
 <?php
-# config/app.php 
+# config/app.php
 
 // file START ommited
     'aliases' => [
@@ -44,6 +46,19 @@ In order to use the `Attacher` facade, you need to register it on the `config/ap
         'Attacher'   => 'Artesaos\Attacher\Facades\Attacher',
     ],
 // file END ommited
+```
+
+#### 3.1 - Facade API
+
+```php
+Attacher::process(Model $model);
+Attacher::addStyle($name, callable $closure);
+Attacher::getStyles();
+Attacher::getPath();
+Attacher::setPath($path);
+Attacher::setBaseURL($url);
+Attacher::getProcessor();
+Attacher::getInterpolator();
 ```
 
 ### 4 - Configuration
@@ -74,7 +89,7 @@ return [
             return $image->insert('public/watermark.png');
         },
         # Generate thumb (?x500)
-        'thumb'=> function($image) 
+        'thumb'=> function($image)
         {
             $image->resize(null, 500, function ($constraint) {
                 $constraint->aspectRatio();
