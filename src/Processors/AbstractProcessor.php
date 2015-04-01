@@ -58,11 +58,11 @@ abstract class AbstractProcessor implements ImageProcessor
      */
     protected function applyStyle(Image $image, Callable $style)
     {
-        $im = clone $image;
+        $clone = clone $image;
 
-        $processed = $style($image);
+        $processed = $style($clone);
 
-        return (is_null($processed)) ? $im : $processed;
+        return (is_null($processed)) ? $clone : $processed;
     }
 
     /**

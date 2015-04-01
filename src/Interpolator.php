@@ -22,8 +22,8 @@ class Interpolator implements InterpolatorContract
 
     public function __construct($path, $base_url)
     {
-        $this->path      = $path;
-        $this->base_url  = $base_url;
+        $this->path     = $path;
+        $this->base_url = $base_url;
     }
 
     /**
@@ -45,7 +45,10 @@ class Interpolator implements InterpolatorContract
      */
     public function parseUrl(ModelContract $model, $style)
     {
-        return url($this->base_url . '/' . $this->doParsePath($model, $style));
+        $url = $this->base_url . $this->doParsePath($model, $style);
+        $url = preg_replace('~(^|[^:])//+~', '\\1/', $url);
+
+        return url($url);
     }
 
     /**
