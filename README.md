@@ -4,10 +4,20 @@ Upload for S3, Copy, Local, Anything and attach images in your Models
 > Current Build Status
 
 [![Code Climate](https://codeclimate.com/github/artesaos/attacher/badges/gpa.svg)](https://codeclimate.com/github/artesaos/attacher)
+[![Codacy Badge](https://www.codacy.com/project/badge/fc8dd3f83be843fe8c9fdcf0d4725bc8)](https://www.codacy.com/app/luiz-vinicius73/attacher)
+[![PullReview stats](https://www.pullreview.com/github/artesaos/attacher/badges/master.svg?)](https://www.pullreview.com/github/artesaos/attacher/reviews/master)
 
 > Statistics
 
-[![Latest Stable Version](https://poser.pugx.org/artesaos/attacher/v/stable.svg)](https://packagist.org/packages/artesaos/attacher) [![Total Downloads](https://poser.pugx.org/artesaos/attacher/downloads.svg)](https://packagist.org/packages/artesaos/attacher) [![Latest Unstable Version](https://poser.pugx.org/artesaos/attacher/v/unstable.svg)](https://packagist.org/packages/artesaos/attacher) [![License](https://poser.pugx.org/artesaos/attacher/license.svg)](https://packagist.org/packages/artesaos/attacher)
+[![Latest Stable Version](https://poser.pugx.org/artesaos/attacher/v/stable.svg)](https://packagist.org/packages/artesaos/attacher) 
+[![Total Downloads](https://poser.pugx.org/artesaos/attacher/downloads.svg)](https://packagist.org/packages/artesaos/attacher) 
+[![Latest Unstable Version](https://poser.pugx.org/artesaos/attacher/v/unstable.svg)](https://packagist.org/packages/artesaos/attacher) 
+[![License](https://poser.pugx.org/artesaos/attacher/license.svg)](https://packagist.org/packages/artesaos/attacher)   
+
+
+[![Inssues](https://img.shields.io/github/issues/artesaos/attacher.svg)](https://github.com/artesaos/attacher/issues) 
+[![Inssues](https://img.shields.io/github/forks/artesaos/attacher.svg)](https://github.com/artesaos/attacher/network) 
+[![Stars](https://img.shields.io/github/stars/artesaos/attacher.svg)](https://github.com/artesaos/attacher/stargazers) 
 
 > Tips
 
