@@ -5,11 +5,6 @@ use Artesaos\Attacher\Contracts\ModelContract as Model;
 class Attacher
 {
     /**
-     * @var \Artesaos\Attacher\Contracts\ImageProcessor
-     */
-    protected $processor;
-
-    /**
      * @var array
      */
     protected $styles;
@@ -27,6 +22,9 @@ class Attacher
         $this->path   = $config->get('attacher.path');
     }
 
+    /**
+     * @param Model $model
+     */
     public function process(Model $model)
     {
         $path   = $this->getPath();
@@ -36,9 +34,18 @@ class Attacher
     }
 
     /**
+     * @param string   $name
+     * @param callable $closure
+     */
+    public function addStyle($name, callable $closure)
+    {
+        $this->styles[$name] = $closure;
+    }
+
+    /**
      * @return array
      */
-    protected function getStyles()
+    public function getStyles()
     {
         return $this->styles;
     }
@@ -46,27 +53,39 @@ class Attacher
     /**
      * @return string
      */
-    protected function getPath()
+    public function getPath()
     {
         return $this->getInterpolator()->getPath();
     }
 
     /**
+     * @param string $path
+     */
+    public function setPath($path)
+    {
+        $this->getInterpolator()->setPath($path);
+    }
+
+    /**
+     * @param string $url
+     */
+    public function setBaseURL($url)
+    {
+        $this->getInterpolator()->setBaseUrl($url);
+    }
+
+    /**
      * @return \Artesaos\Attacher\Contracts\ImageProcessor
      */
-    protected function getProcessor()
+    public function getProcessor()
     {
-        if (!$this->processor):
-            $this->processor = app('attacher.processor');
-        endif;
-
-        return $this->processor;
+        return app('attacher.processor');
     }
 
     /**
      * @return \Artesaos\Attacher\Contracts\InterpolatorContract;
      */
-    protected function getInterpolator()
+    public function getInterpolator()
     {
         return app('attacher.interpolator');
     }
