@@ -47,7 +47,7 @@ class AttacherModel extends Model implements ModelContract
     {
         $this->_source = $file;
 
-        $this->setFileExtension($file->getExtension());
+        $this->setFileExtension($file->getClientOriginalExtension());
         $this->setFileNameAttribute($file->getClientOriginalName());
         $this->setMimeTypeAttribute($file->getClientMimeType());
         $this->setFileSizeAttribute($file->getSize());
