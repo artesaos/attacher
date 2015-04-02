@@ -9,15 +9,15 @@ Upload for S3, Copy, Local, Anything and attach images in your Models
 
 > Statistics
 
-[![Latest Stable Version](https://poser.pugx.org/artesaos/attacher/v/stable.svg)](https://packagist.org/packages/artesaos/attacher) 
-[![Total Downloads](https://poser.pugx.org/artesaos/attacher/downloads.svg)](https://packagist.org/packages/artesaos/attacher) 
-[![Latest Unstable Version](https://poser.pugx.org/artesaos/attacher/v/unstable.svg)](https://packagist.org/packages/artesaos/attacher) 
-[![License](https://poser.pugx.org/artesaos/attacher/license.svg)](https://packagist.org/packages/artesaos/attacher)   
+[![Latest Stable Version](https://poser.pugx.org/artesaos/attacher/v/stable.svg)](https://packagist.org/packages/artesaos/attacher)
+[![Total Downloads](https://poser.pugx.org/artesaos/attacher/downloads.svg)](https://packagist.org/packages/artesaos/attacher)
+[![Latest Unstable Version](https://poser.pugx.org/artesaos/attacher/v/unstable.svg)](https://packagist.org/packages/artesaos/attacher)
+[![License](https://poser.pugx.org/artesaos/attacher/license.svg)](https://packagist.org/packages/artesaos/attacher)
 
 
-[![Inssues](https://img.shields.io/github/issues/artesaos/attacher.svg)](https://github.com/artesaos/attacher/issues) 
-[![Inssues](https://img.shields.io/github/forks/artesaos/attacher.svg)](https://github.com/artesaos/attacher/network) 
-[![Stars](https://img.shields.io/github/stars/artesaos/attacher.svg)](https://github.com/artesaos/attacher/stargazers) 
+[![Inssues](https://img.shields.io/github/issues/artesaos/attacher.svg)](https://github.com/artesaos/attacher/issues)
+[![Inssues](https://img.shields.io/github/forks/artesaos/attacher.svg)](https://github.com/artesaos/attacher/network)
+[![Stars](https://img.shields.io/github/stars/artesaos/attacher.svg)](https://github.com/artesaos/attacher/stargazers)
 
 > Tips
 
@@ -126,9 +126,87 @@ The image destination information are in flysystem configuration file `config/fl
 $upload = Input::file('image');
 
 $image = new \Artesaos\Attacher\AttacherModel();
-$image->setupFile($upload);
-$image->save();
+$image->setupFile($upload); # attach image
+$image->save(); # now attacher process file (generate styles and save in your provider configured in flysystem)
 
 echo $image->url('original');
 echo $image->url('thumb'); // your style
+```
+
+### 2 - Traits
+
+Attacher provides you two traits to facilitate the creation of galleries/collections of images linked to other objects using the technique `morphMany` and `morphOne`
+
+#### 2.1 HasImages
+
+Bond with many images
+
+```php
+#app/Project.php
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+use Artesaos\Attacher\Traits\HasImage;
+
+class Projects extends Model
+{
+    use HasImages;
+
+    protected $table = 'projects';
+}
+
+////
+
+$upload = Input::file('image');
+
+$project = Projects::find(73);
+
+$image = $project->addImage($upload); # Create a new image, save model and save image file with your styles
+
+echo $image->url('thumnail');
+
+////
+
+$project = Projects::find(73);
+
+# Collection of images
+$images = $project->images;
+
+```
+
+#### 2.2 HasImage [WIP]
+
+Link to an image
+
+```php
+
+#app/People.php
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+use Artesaos\Attacher\Traits\HasImage;
+
+class People extends Model
+{
+    use HasImage;
+
+    protected $table = 'people';
+}
+
+////
+
+$upload = Input::file('image');
+
+$people = People::find(73);
+
+$image = $people->addImage($upload); # Create a new image, save model and save image file with your styles
+
+echo $image->url('thumnail');
+
+////
+
+$people = People::find(73);
+
+echo $people->image->url('original');
+
 ```
