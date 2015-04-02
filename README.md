@@ -137,7 +137,7 @@ echo $image->url('thumb'); // your style
 
 Attacher provides you two traits to facilitate the creation of galleries/collections of images linked to other objects using the technique `morphMany` and `morphOne`
 
-#### 2.1 HasImages
+#### 2.1 - HasImages
 
 Bond with many images
 
@@ -174,7 +174,7 @@ $images = $project->images;
 
 ```
 
-#### 2.2 HasImage [WIP]
+#### 2.2 - HasImage [WIP]
 
 Link to an image
 
