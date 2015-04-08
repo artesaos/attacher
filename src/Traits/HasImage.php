@@ -10,7 +10,7 @@ trait HasImage
      */
     public function image()
     {
-        return $this->morphOne(config('attacher.model'), 'imageable');
+        return $this->morphOne(config('attacher.model'), 'subject');
     }
 
     /**

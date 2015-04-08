@@ -56,7 +56,7 @@ class AttacherModel extends Model implements ModelContract
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function imageable()
+    public function subject()
     {
         return $this->morphTo();
     }

@@ -11,7 +11,7 @@ trait HasImages
      */
     public function images()
     {
-        return $this->morphMany(config('attacher.model'), 'imageable');
+        return $this->morphMany(config('attacher.model'), 'subject');
     }
 
     /**
