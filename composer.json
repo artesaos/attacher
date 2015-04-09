@@ -1,5 +1,8 @@
 {
   "name": "artesaos/attacher",
+  "description": "Annex and do what you want with your pictures! For Laravel 5",
+  "license": "MIT",
+  "keywords" : ["laravel5", "laravel", "flysystem", "upload", "AwsS3", "Azure", "Copy", "Dropbox", "GridFS", "Rackspace", "Sftp", "WebDav", "ZipAdapter"],
   "autoload": {
     "psr-4": {
       "Artesaos\\Attacher\\": "src/"
