@@ -210,3 +210,6 @@ $people = People::find(73);
 echo $people->image->url('original');
 
 ```
+
+## Author
+[Vinicius Reis](https://github.com/vinicius73)
