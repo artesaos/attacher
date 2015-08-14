@@ -41,7 +41,7 @@ class AttacherModel extends Model implements ModelContract
     /**
      * Setup image file
      *
-     * @param UploadedFile
+     * @param UploadedFile $file
      */
     public function setupFile(UploadedFile $file)
     {
@@ -83,6 +83,14 @@ class AttacherModel extends Model implements ModelContract
     public function getFileNameAttribute()
     {
         return $this->attributes['file_name'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getStyleGuideName()
+    {
+        return (empty($this->style_guide)) ? 'default' : $this->style_guide;
     }
 
     /**

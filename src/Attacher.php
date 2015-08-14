@@ -7,7 +7,7 @@ class Attacher
     /**
      * @var array
      */
-    protected $styles;
+    protected $style_guides;
 
     /**
      * @var string;
@@ -18,8 +18,8 @@ class Attacher
     {
         $config = app('config');
 
-        $this->styles = $config->get('attacher.styles', []);
-        $this->path   = $config->get('attacher.path');
+        $this->style_guides = $config->get('attacher.style_guides', []);
+        $this->path         = $config->get('attacher.path');
     }
 
     /**
@@ -28,7 +28,7 @@ class Attacher
     public function process(Model $model)
     {
         $path   = $this->getPath();
-        $styles = $this->getStyles();
+        $styles = $this->getStyleguides();
 
         $this->getProcessor()->process($model, $styles, $path);
     }
@@ -39,15 +39,15 @@ class Attacher
      */
     public function addStyle($name, callable $closure)
     {
-        $this->styles[$name] = $closure;
+        $this->style_guides[$name] = $closure;
     }
 
     /**
      * @return array
      */
-    public function getStyles()
+    public function getStyleguides()
     {
-        return $this->styles;
+        return $this->style_guides;
     }
 
     /**

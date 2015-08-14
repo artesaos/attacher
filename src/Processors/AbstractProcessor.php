@@ -1,5 +1,6 @@
 <?php namespace Artesaos\Attacher\Processors;
 
+use Artesaos\Attacher\AttacherModel;
 use Artesaos\Attacher\Contracts\ImageProcessor;
 use Intervention\Image\Image;
 use Intervention\Image\ImageManager;
@@ -25,20 +26,27 @@ abstract class AbstractProcessor implements ImageProcessor
     }
 
     /**
-     * @param ModelContract $model
+     * Performs image processing
      *
-     * @return string
+     * @param ModelContract $model
+     * @param array         $styleGuides
+     * @param string        $path
      */
-    public function process(ModelContract &$model, array $styles, $path)
+    public function process(ModelContract &$model, array $styleGuides, $path)
     {
-        $image = $this->imageManager->make($model->getSourceFile()->getFileInfo());
-
+        // load styles
+        $styles          = $this->getStyles($model, $styleGuides);
         $originalClosure = array_get($styles, 'original', null);
 
+        // get Image object
+        $image = $this->imageManager->make($model->getSourceFile()->getFileInfo());
+
+        // apply original style
         $original = $this->processStyle($model, $image, 'original', $originalClosure);
 
         array_forget($styles, 'original');
 
+        // apply styles
         foreach ($styles as $styleName => $closure):
             $this->processStyle($model, $original, $styleName, $closure);
         endforeach;
@@ -80,6 +88,17 @@ abstract class AbstractProcessor implements ImageProcessor
         $processed = $style($clone);
 
         return (is_null($processed)) ? $clone : $processed;
+    }
+
+    /**
+     * @param AttacherModel $model
+     * @param array         $styleGuides
+     *
+     * @return array
+     */
+    protected function getStyles(AttacherModel $model, array $styleGuides)
+    {
+        return array_get($styleGuides, $model->getStyleGuideName(), []);
     }
 
     /**
