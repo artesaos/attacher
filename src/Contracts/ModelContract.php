@@ -7,9 +7,10 @@ interface ModelContract
     /**
      * Setup image file
      *
-     * @param \Symfony\Component\HttpFoundation\File\UploadedFile $file
+     * @param UploadedFile $file
+     * @param string       $style_guide
      */
-    public function setupFile(UploadedFile $file);
+    public function setupFile(UploadedFile $file, $style_guide = null);
 
     /**
      * @return UploadedFile
@@ -43,4 +44,14 @@ interface ModelContract
      * @return mixed
      */
     public function getAttribute($key);
+
+    /**
+     * @return string
+     */
+    public function getStyleGuideName();
+
+    /**
+     * @param string $name
+     */
+    public function setStyleGuideName($name);
 }

@@ -16,13 +16,14 @@ trait HasImages
 
     /**
      * @param UploadedFile $image
+     * @param string       $style_guide
      *
      * @return AttacherModel
      */
-    public function addImage(UploadedFile $image)
+    public function addImage(UploadedFile $image, $style_guide = null)
     {
         $instance = $this->createImageModel();
-        $instance->setupFile($image);
+        $instance->setupFile($image, $style_guide);
 
         $this->images()->save($instance);
 

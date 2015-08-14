@@ -14,9 +14,14 @@ class AttacherModel extends Model implements ModelContract
     protected $_source;
 
     /**
-     * @var
+     * @var string
      */
     protected $_file;
+
+    /**
+     * @var string
+     */
+    protected $_style_guide = 'default';
 
     /**
      * @param string $style
@@ -42,8 +47,9 @@ class AttacherModel extends Model implements ModelContract
      * Setup image file
      *
      * @param UploadedFile $file
+     * @param string       $style_guide
      */
-    public function setupFile(UploadedFile $file)
+    public function setupFile(UploadedFile $file, $style_guide = null)
     {
         $this->_source = $file;
 
@@ -51,6 +57,10 @@ class AttacherModel extends Model implements ModelContract
         $this->setFileNameAttribute($file->getClientOriginalName());
         $this->setMimeTypeAttribute($file->getClientMimeType());
         $this->setFileSizeAttribute($file->getSize());
+
+        if (!empty($style_guide)) {
+            $this->setStyleGuideName($style_guide);
+        }
     }
 
     /**
@@ -59,6 +69,22 @@ class AttacherModel extends Model implements ModelContract
     public function subject()
     {
         return $this->morphTo();
+    }
+
+    /**
+     * @return string
+     */
+    public function getStyleGuideName()
+    {
+        return (empty($this->_style_guide)) ? 'default' : $this->_style_guide;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setStyleGuideName($name)
+    {
+        $this->_style_guide = $name;
     }
 
     /**
@@ -85,13 +111,6 @@ class AttacherModel extends Model implements ModelContract
         return $this->attributes['file_name'];
     }
 
-    /**
-     * @return string
-     */
-    public function getStyleGuideName()
-    {
-        return (empty($this->style_guide)) ? 'default' : $this->style_guide;
-    }
 
     /**
      * @param string $name
@@ -118,6 +137,7 @@ class AttacherModel extends Model implements ModelContract
     {
         $this->attributes['file_size'] = $size;
     }
+
 
     /**
      * @param string $type
