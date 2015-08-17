@@ -34,15 +34,6 @@ class Attacher
     }
 
     /**
-     * @param string   $name
-     * @param callable $closure
-     */
-    public function addStyle($name, callable $closure)
-    {
-        $this->style_guides[$name] = $closure;
-    }
-
-    /**
      * @return array
      */
     public function getStyleGuides()
