@@ -24,7 +24,7 @@ trait HasImage
         $instance = $this->createImageModel();
         $instance->setupFile($image, $style_guide);
 
-        $this->images()->save($instance);
+        $this->image()->save($instance);
 
         return $instance;
     }
