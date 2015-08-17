@@ -1,6 +1,8 @@
 <?php namespace Artesaos\Attacher;
 
 use Artesaos\Attacher\Contracts\ModelContract as Model;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use SplFileInfo;
 
 class Attacher
 {
@@ -79,5 +81,17 @@ class Attacher
     public function getInterpolator()
     {
         return app('attacher.interpolator');
+    }
+
+    /**
+     * @param string $file
+     *
+     * @return UploadedFile
+     */
+    public function makeUploadObject($file)
+    {
+        $info = new SplFileInfo($file);
+
+        return new UploadedFile($file, $info->getFilename(), mime_content_type($file), $info->getSize());
     }
 }
