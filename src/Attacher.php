@@ -28,7 +28,7 @@ class Attacher
     public function process(Model $model)
     {
         $path   = $this->getPath();
-        $styles = $this->getStyleguides();
+        $styles = $this->getStyleGuides();
 
         $this->getProcessor()->process($model, $styles, $path);
     }
@@ -45,7 +45,7 @@ class Attacher
     /**
      * @return array
      */
-    public function getStyleguides()
+    public function getStyleGuides()
     {
         return $this->style_guides;
     }
