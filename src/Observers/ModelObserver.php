@@ -4,7 +4,7 @@ use Artesaos\Attacher\Contracts\ModelContract;
 
 class ModelObserver
 {
-    public function saved(ModelContract $model)
+    public function created(ModelContract $model)
     {
         app('attacher')->process($model);
     }
