@@ -36,6 +36,16 @@ class Attacher
     }
 
     /**
+     * @param string $styleGuide
+     *
+     * @return array
+     */
+    public function getStyleGuide($styleGuide)
+    {
+        return array_get($this->style_guides, $styleGuide, []);
+    }
+
+    /**
      * @return array
      */
     public function getStyleGuides()
