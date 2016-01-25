@@ -19,10 +19,10 @@ trait HasImage
      *
      * @return AttacherModel
      */
-    public function addImage(UploadedFile $image, $style_guide = null)
+    public function addImage(UploadedFile $image, $style_guide = null, $type = null)
     {
         $instance = $this->createImageModel();
-        $instance->setupFile($image, $style_guide);
+        $instance->setupFile($image, $style_guide, $type);
 
         $this->image()->save($instance);
 

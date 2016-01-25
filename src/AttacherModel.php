@@ -49,10 +49,11 @@ class AttacherModel extends Model implements ModelContract
      * @param UploadedFile $file
      * @param string       $style_guide
      */
-    public function setupFile(UploadedFile $file, $style_guide = null)
+    public function setupFile(UploadedFile $file, $style_guide = null, $type = null)
     {
         $this->_source = $file;
 
+        $this->setTypeAttribute($type);
         $this->setFileExtension($file->getClientOriginalExtension());
         $this->setFileNameAttribute($file->getClientOriginalName());
         $this->setMimeTypeAttribute($file->getClientMimeType());
@@ -106,6 +107,22 @@ class AttacherModel extends Model implements ModelContract
     /**
      * @return string
      */
+    public function getTypeAttribute()
+    {
+        return $this->attributes['type'];
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setTypeAttribute($type)
+    {
+        $this->attributes['type'] = $type;
+    }
+
+    /**
+     * @return string
+     */
     public function getFileNameAttribute()
     {
         return $this->attributes['file_name'];
@@ -145,5 +162,15 @@ class AttacherModel extends Model implements ModelContract
     public function setMimeTypeAttribute($type)
     {
         $this->attributes['mime_type'] = $type;
+    }
+
+    /**
+     * Scope a query to only include images of a given type.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOfType($query, $type)
+    {
+        return $query->where('type', $type);
     }
 }

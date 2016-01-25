@@ -15,6 +15,7 @@ class CreateAttacherImagesTable extends Migration
 
         Schema::create('attacher_images', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('type');
             $table->unsignedInteger('subject_id')->index();
             $table->string('subject_type')->index();
             $table->string('file_extension');
