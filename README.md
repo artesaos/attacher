@@ -95,7 +95,7 @@ return [
     # This is where you record what the "styles" that will apply to your image.
     # Each style takes as the parameter is one \Intervention\Image\Image
     # See more in http://image.intervention.io/
-    'styles'   => [
+    'style_guides'   => [
         # Optional
         # If you set the original style all other styles used his return to base
         'original'=> function($image)
