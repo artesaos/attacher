@@ -24,6 +24,6 @@ class Fly implements OutputContract
      */
     public function save(Image $image, $path)
     {
-        return $this->flysystem->put($path, $image->encode());
+        return $this->flysystem->put($path, (string) $image->encode());
     }
 }
