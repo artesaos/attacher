@@ -22,7 +22,7 @@ class Attacher
     {
         $config = app('config');
 
-        $this->styleGuides = $config->get('attacher.styleGuides', []);
+        $this->styleGuides = $config->get('attacher.style_guides', []);
         $this->path         = $config->get('attacher.path');
     }
 
