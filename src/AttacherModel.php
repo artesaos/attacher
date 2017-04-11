@@ -1,4 +1,6 @@
-<?php namespace Artesaos\Attacher;
+<?php
+
+namespace Artesaos\Attacher;
 
 use Illuminate\Database\Eloquent\Model;
 use Artesaos\Attacher\Contracts\ModelContract;
@@ -21,7 +23,7 @@ class AttacherModel extends Model implements ModelContract
     /**
      * @var string
      */
-    protected $_style_guide = 'default';
+    protected $_styleGuide = 'default';
 
     /**
      * @param string $style
@@ -47,9 +49,10 @@ class AttacherModel extends Model implements ModelContract
      * Setup image file
      *
      * @param UploadedFile $file
-     * @param string       $style_guide
+     * @param string|array $styleGuide
+     * @param string $type
      */
-    public function setupFile(UploadedFile $file, $style_guide = null, $type = null)
+    public function setupFile(UploadedFile $file, $styleGuide = null, $type = null)
     {
         $this->_source = $file;
 
@@ -59,8 +62,8 @@ class AttacherModel extends Model implements ModelContract
         $this->setMimeTypeAttribute($file->getClientMimeType());
         $this->setFileSizeAttribute($file->getSize());
 
-        if (!empty($style_guide)) {
-            $this->setStyleGuideName($style_guide);
+        if (!empty($styleGuide)) {
+            $this->setStyleGuide($styleGuide);
         }
     }
 
@@ -73,19 +76,19 @@ class AttacherModel extends Model implements ModelContract
     }
 
     /**
-     * @return string
+     * @return string|array
      */
-    public function getStyleGuideName()
+    public function getStyleGuide()
     {
-        return (empty($this->_style_guide)) ? 'default' : $this->_style_guide;
+        return (empty($this->_styleGuide)) ? 'default' : $this->_styleGuide;
     }
 
     /**
-     * @param string $name
+     * @param string|array $name
      */
-    public function setStyleGuideName($name)
+    public function setStyleGuide($name)
     {
-        $this->_style_guide = $name;
+        $this->_styleGuide = $name;
     }
 
     /**

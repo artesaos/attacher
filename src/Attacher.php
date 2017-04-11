@@ -1,4 +1,6 @@
-<?php namespace Artesaos\Attacher;
+<?php
+
+namespace Artesaos\Attacher;
 
 use Artesaos\Attacher\Contracts\ModelContract as Model;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -9,7 +11,7 @@ class Attacher
     /**
      * @var array
      */
-    protected $style_guides;
+    protected $styleGuides;
 
     /**
      * @var string;
@@ -20,7 +22,7 @@ class Attacher
     {
         $config = app('config');
 
-        $this->style_guides = $config->get('attacher.style_guides', []);
+        $this->styleGuides = $config->get('attacher.styleGuides', []);
         $this->path         = $config->get('attacher.path');
     }
 
@@ -42,7 +44,7 @@ class Attacher
      */
     public function getStyleGuide($styleGuide)
     {
-        return array_get($this->style_guides, $styleGuide, []);
+        return array_get($this->styleGuides, $styleGuide, []);
     }
 
     /**
@@ -50,7 +52,7 @@ class Attacher
      */
     public function getStyleGuides()
     {
-        return $this->style_guides;
+        return $this->styleGuides;
     }
 
     /**

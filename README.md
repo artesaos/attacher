@@ -1,5 +1,5 @@
 # Attacher - Pictures attachment tool for Laravel
-Upload for S3, Copy, Local, Anything and attach images in your Models
+**Upload** for S3, Copy, Local, Anything, **Manipulate** and **Attach Images in your Models**
 
 > Current Build Status
 
@@ -30,17 +30,25 @@ The first step is using composer to install the package and automatically update
 composer require artesaos/attacher
 ```
 
+or manually update your `composer.json` file
+
+```json
+{
+    "require": {
+        "artesaos/attacher": "~0.6"
+    }
+}
+```
+
 ### 2 - Provider
 You need to update your application configuration in order to register the package so it can be loaded by Laravel, just update your `config/app.php` file adding the following code at the end of your `'providers'` section:
 
 ```php
-<?php
-# config/app.php
 
 // file START ommited
     'providers' => [
         // other providers ommited
-        'Artesaos\Attacher\Providers\AttacherServiceProvider',
+        \Artesaos\Attacher\Providers\AttacherServiceProvider::class,
     ],
 // file END ommited
 ```
@@ -57,7 +65,7 @@ In order to use the `Attacher` facade, you need to register it on the `config/ap
 // file START ommited
     'aliases' => [
         // other Facades ommited
-        'Attacher'   => 'Artesaos\Attacher\Facades\Attacher',
+        'Attacher'   => \Artesaos\Attacher\Facades\Attacher::class,
     ],
 // file END ommited
 ```
@@ -66,8 +74,6 @@ In order to use the `Attacher` facade, you need to register it on the `config/ap
 
 ```php
 Attacher::process(Model $model);
-Attacher::addStyle($name, callable $closure);
-Attacher::getStyles();
 Attacher::getPath();
 Attacher::setPath($path);
 Attacher::setBaseURL($url);
@@ -82,34 +88,39 @@ Run in your console `php artisan vendor:publish`, now you have 3 new files, `con
 > Attacher need [graham-campbell/flysystem](https://github.com/GrahamCampbell/Laravel-Flysystem)
 > Don't worry, Attacher registers the flysystem service automatically for you.
 
-
+In the `config/app.php` file, you can configure the destination path and the styles guides to manipulate the images.
 ```php
-<?php
-# config/attacher.php
 return [
     'model'    => 'Artesaos\Attacher\AttacherModel', # You can customize the model for your needs.
     'base_url' => '', # The url basis for the representation of images.
     'path'     => '/uploads/images/:id/:style/:filename', # Change the path where the images are stored.
 
-    # Where the magic happens.
-    # This is where you record what the "styles" that will apply to your image.
-    # Each style takes as the parameter is one \Intervention\Image\Image
-    # See more in http://image.intervention.io/
     'style_guides'   => [
-        # Optional
-        # If you set the original style all other styles used his return to base
-        'original'=> function($image)
-        {
-            return $image->insert('public/watermark.png');
-        },
-        # Generate thumb (?x500)
-        'thumb'=> function($image)
-        {
-            return $image->resize(null, 500, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-        }
+        'default' => [
+            # If you set the original style all other styles used his return to base
+            'original'=> function($image)
+            {
+                return $image->insert('public/watermark.png');
+            },
+
+            # Generate thumb (?x500)
+            'thumb' => function ($image) {
+                $image->resize(null, 500, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+
+                return $image;
+            },
+        ],
+        'custom_style_guide' => [
+            # Generate thumb (?x500)
+            'custom_style' => function ($image) {
+                $image->fit(460, 120);
+
+                return $image;
+            }
+        ],
     ]
 ];
 
@@ -131,6 +142,73 @@ $image->save(); # now attacher process file (generate styles and save in your pr
 
 echo $image->url('original');
 echo $image->url('thumb'); // your style
+```
+
+#### 1.1 - Using Styles Guide
+Using a specific guide style to manipulate the images:
+```php
+$upload = Input::file('image');
+
+$image = new \Artesaos\Attacher\AttacherModel();
+$image->setupFile($upload, 'custom_style_guide'); # attach image using the "custom_style_guide"
+$image->save();
+
+echo $image->url('custom_style'); // The "custom_style" setted in "custom_style_guide"
+```
+
+It is possible to change the style by passing an array keyed by the **style guide** and the **style** that you wish to change. The array values should be Closure instances which receive the \Intervention\Image\Image:
+```php
+$upload = Input::file('image');
+
+$image = new \Artesaos\Attacher\AttacherModel();
+$image->setupFile($upload, [
+    'custom_style_guide' => [
+        'custom_style' => function ($image) {
+            $image->fit(30, 30);
+
+            return $image;
+        }
+    ]
+]); # attach image using the "custom_style" changed
+$image->save();
+
+echo $image->url('custom_style'); // Now, the "custom_style" generates a resized image of 30 by 30 pixels
+```
+
+Or use dot notation to change style:
+```php
+$upload = Input::file('image');
+
+$image = new \Artesaos\Attacher\AttacherModel();
+$image->setupFile($upload, [
+    'custom_style_guide.custom_style' => function ($image) {
+        $image->fit(30, 30);
+
+        return $image;
+    }
+]); # attach image using the "custom_style" changed
+$image->save();
+
+echo $image->url('custom_style'); // Now, the "custom_style" generates a resized image of 30 by 30 pixels
+```
+#### 1.2 - Setting a Image Model Type
+Sometimes you may need to specify a type of image model. For example, when a product there are images for listing and images for gallery.
+To do so, just pass additional third argument to the method:
+```php
+$upload = Input::file('image');
+
+$image = new \Artesaos\Attacher\AttacherModel();
+$image->setupFile($upload, 'default', 'listing'); # attach image using the "listing" custom guide style
+$image->save();
+
+$upload2 = Input::file('image2');
+
+$image2 = new \Artesaos\Attacher\AttacherModel();
+$image2->setupFile($upload2, 'default', 'gallery'); # attach image using the "gallery" custom guide style
+$image2->save();
+
+echo $image->url('thumb_to_list'); // The image specific to listing
+echo $image2->url('thumb_to_gallery'); // The image specific to gallery
 ```
 
 ### 2 - Traits
@@ -173,6 +251,10 @@ $project = Projects::find(73);
 $images = $project->images;
 
 ```
+> The method addImage() has the same attributes of the method setupFile() of the AttachModel:
+```php
+$model->addImage(UploadedFile $image, $styleGuide = null, $type = null);
+```
 
 #### 2.2 - HasImage [WIP]
 
@@ -209,6 +291,10 @@ $people = People::find(73);
 
 echo $people->image->url('original');
 
+```
+> The method addImage() has the same attributes of the method setupFile() of the AttachModel:
+```php
+$model->addImage(UploadedFile $image, $styleGuide = null, $type = null);
 ```
 
 ## Author
