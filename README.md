@@ -191,25 +191,6 @@ $image->save();
 
 echo $image->url('custom_style'); // Now, the "custom_style" generates a resized image of 30 by 30 pixels
 ```
-#### 1.2 - Setting a Image Model Type
-Sometimes you may need to specify a type of image model. For example, when a product there are images for listing and images for gallery.
-To do so, just pass additional third argument to the method:
-```php
-$upload = Input::file('image');
-
-$image = new \Artesaos\Attacher\AttacherModel();
-$image->setupFile($upload, 'default', 'listing'); # attach image using the "listing" custom guide style
-$image->save();
-
-$upload2 = Input::file('image2');
-
-$image2 = new \Artesaos\Attacher\AttacherModel();
-$image2->setupFile($upload2, 'default', 'gallery'); # attach image using the "gallery" custom guide style
-$image2->save();
-
-echo $image->url('thumb_to_list'); // The image specific to listing
-echo $image2->url('thumb_to_gallery'); // The image specific to gallery
-```
 
 ### 2 - Traits
 
@@ -241,7 +222,7 @@ $project = Projects::find(73);
 
 $image = $project->addImage($upload); # Create a new image, save model and save image file with your styles
 
-echo $image->url('thumnail');
+echo $image->url('thumbnail');
 
 ////
 
@@ -283,7 +264,7 @@ $people = People::find(73);
 
 $image = $people->addImage($upload); # Create a new image, save model and save image file with your styles
 
-echo $image->url('thumnail');
+echo $image->url('thumbnail');
 
 ////
 
@@ -295,6 +276,21 @@ echo $people->image->url('original');
 > The method addImage() has the same attributes of the method setupFile() of the AttachModel:
 ```php
 $model->addImage(UploadedFile $image, $styleGuide = null, $type = null);
+```
+## 3 - Setting a Image Model Type
+Sometimes you may need to specify a type of image model. For example, when a product there are images for listing and images for gallery.
+To do so, just pass additional third argument to the method:
+```php
+$people = People::find(73);
+
+$upload = Input::file('image');
+$people->addImage($upload, 'default', 'listing'); # attach image using the "listing" custom guide style
+
+$upload2 = Input::file('image2');
+$people->addImage($upload2, 'default', 'gallery'); # attach image using the "gallery" custom guide style
+
+$listingImages = $people->images->ofType('listing'); // Get images of the listing
+$galleryImages = $people->images->ofType('gallery'); // Get images of the gallery
 ```
 
 ## Author
