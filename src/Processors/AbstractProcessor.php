@@ -35,7 +35,7 @@ abstract class AbstractProcessor implements ImageProcessor
     public function process(ModelContract &$model, array $styleGuides, $path)
     {
         // load styles
-        $styles          = $this->getStyles($model, $styleGuides);
+        $styles = $this->getStyles($model, $styleGuides);
         $originalClosure = array_get($styles, 'original', null);
 
         // get Image object
@@ -92,13 +92,31 @@ abstract class AbstractProcessor implements ImageProcessor
 
     /**
      * @param AttacherModel $model
-     * @param array         $styleGuides
+     * @param array $styleGuides
      *
      * @return array
      */
     protected function getStyles(AttacherModel $model, array $styleGuides)
     {
-        return array_get($styleGuides, $model->getStyleGuideName(), []);
+        $styles = [];
+        if (is_array($model->getStyleGuide())) {
+            $parsedStyleGuide = [];
+            foreach ($model->getStyleGuide() as $key => $value) {
+                array_set($parsedStyleGuide, $key, $value);
+            }
+
+            $styleGuides = array_replace_recursive($styleGuides, $parsedStyleGuide);
+
+            foreach ($parsedStyleGuide as $styleGuide => $styleName) {
+                $styleName = is_array($styleName) ? $styleGuide : $styleName;
+
+                $styles = array_merge($styles, array_get($styleGuides, $styleName, []));
+            }
+        } else {
+            $styles = array_get($styleGuides, $model->getStyleGuide(), []);
+        }
+
+        return $styles;
     }
 
     /**

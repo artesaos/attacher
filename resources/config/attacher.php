@@ -23,4 +23,5 @@ return [
             },
         ],
     ],
+    'image_quality' => 85 # Overwrite the default Intervention quality value
 ];

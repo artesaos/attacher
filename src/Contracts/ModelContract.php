@@ -8,9 +8,9 @@ interface ModelContract
      * Setup image file
      *
      * @param UploadedFile $file
-     * @param string       $style_guide
+     * @param string       $styleGuide
      */
-    public function setupFile(UploadedFile $file, $style_guide = null);
+    public function setupFile(UploadedFile $file, $styleGuide = null);
 
     /**
      * @return UploadedFile
@@ -46,12 +46,12 @@ interface ModelContract
     public function getAttribute($key);
 
     /**
-     * @return string
+     * @return string|array
      */
-    public function getStyleGuideName();
+    public function getStyleGuide();
 
     /**
-     * @param string $name
+     * @param string|array $name
      */
-    public function setStyleGuideName($name);
+    public function setStyleGuide($name);
 }

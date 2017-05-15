@@ -1,11 +1,12 @@
-<?php namespace Artesaos\Attacher\Traits;
+<?php
+
+namespace Artesaos\Attacher\Traits;
 
 use Artesaos\Attacher\AttacherModel;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 trait HasImages
 {
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
@@ -16,14 +17,15 @@ trait HasImages
 
     /**
      * @param UploadedFile $image
-     * @param string       $style_guide
+     * @param string|array $styleGuide
+     * @param string $type
      *
      * @return AttacherModel
      */
-    public function addImage(UploadedFile $image, $style_guide = null, $type = null)
+    public function addImage(UploadedFile $image, $styleGuide = null, $type = null)
     {
         $instance = $this->createImageModel();
-        $instance->setupFile($image, $style_guide, $type);
+        $instance->setupFile($image, $styleGuide, $type);
 
         $this->images()->save($instance);
 
