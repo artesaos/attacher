@@ -113,9 +113,9 @@ return [
                 return $image;
             },
         ],
-        'custom_style_guide' => [
-            # Generate thumb (?x500)
-            'custom_style' => function ($image) {
+        'my_custom_style' => [
+            # Generate thumb (460x120)
+            'cover' => function ($image) {
                 $image->fit(460, 120);
 
                 return $image;
@@ -150,29 +150,30 @@ Using a specific guide style to manipulate the images:
 $upload = Input::file('image');
 
 $image = new \Artesaos\Attacher\AttacherModel();
-$image->setupFile($upload, 'custom_style_guide'); # attach image using the "custom_style_guide"
+$image->setupFile($upload, 'custom_style'); # attach image using the "custom_style"
 $image->save();
 
-echo $image->url('custom_style'); // The "custom_style" setted in "custom_style_guide"
+echo $image->url('cover'); // The "cover" setted in "my_custom_style" of the config/attacher.php file
 ```
 
-It is possible to change the style by passing an array keyed by the **style guide** and the **style** that you wish to change. The array values should be Closure instances which receive the \Intervention\Image\Image:
+It is possible to change the style setted in config/attacher.php, by passing an array keyed by the **style guide** and the **style** that you wish to change. The array values should be Closure instances which receive the \Intervention\Image\Image:
 ```php
 $upload = Input::file('image');
 
 $image = new \Artesaos\Attacher\AttacherModel();
 $image->setupFile($upload, [
-    'custom_style_guide' => [
-        'custom_style' => function ($image) {
+    'my_custom_style' => [
+        # Generate thumb (30x30)
+        'cover' => function ($image) {
             $image->fit(30, 30);
 
             return $image;
         }
     ]
-]); # attach image using the "custom_style" changed
+]); # attach image using the "my_custom_style" changed by Closure
 $image->save();
 
-echo $image->url('custom_style'); // Now, the "custom_style" generates a resized image of 30 by 30 pixels
+echo $image->url('cover'); // Now, the "cover" generates a resized image of 30 by 30 pixels
 ```
 
 Or use dot notation to change style:
@@ -181,15 +182,15 @@ $upload = Input::file('image');
 
 $image = new \Artesaos\Attacher\AttacherModel();
 $image->setupFile($upload, [
-    'custom_style_guide.custom_style' => function ($image) {
+    'my_custom_style.cover' => function ($image) {
         $image->fit(30, 30);
 
         return $image;
     }
-]); # attach image using the "custom_style" changed
+]); # attach image using the "my_custom_style" changed by Closure
 $image->save();
 
-echo $image->url('custom_style'); // Now, the "custom_style" generates a resized image of 30 by 30 pixels
+echo $image->url('cover'); // Now, the "cover" generates a resized image of 30 by 30 pixels
 ```
 
 ### 2 - Traits
