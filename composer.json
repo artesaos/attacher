@@ -20,5 +20,15 @@
     "psr-4": {
       "Vinicius73\\Attacher\\Tests\\": "tests/"
     }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Artesaos\\Attacher\\Providers\\AttacherServiceProvider"
+      ],
+      "aliases": [
+        "Attacher": "Artesaos\\Attacher\\Facades\\Attacher"
+      ]
+    }
   }
 }
