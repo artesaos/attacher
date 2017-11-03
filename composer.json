@@ -9,16 +9,17 @@
     }
   },
   "require": {
+    "php": ">=7.0",
     "illuminate/support": "~5",
     "intervention/image": "~2.3",
     "graham-campbell/flysystem": "^3.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "4.*"
+    "phpunit/phpunit": "~6.0"
   },
   "autoload-dev": {
     "psr-4": {
-      "Vinicius73\\Attacher\\Tests\\": "tests/"
+      "Vinicius73\\Attacher\\Tests": "tests/"
     }
   },
   "extra": {
